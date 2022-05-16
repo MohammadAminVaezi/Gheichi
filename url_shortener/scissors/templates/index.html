@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Url shortener</title>
+</head>
+
+<body>
+    {% block url %}
+    <div>
+        <form action="{% url 'scissors:create-url' %}" method="post">
+            {%csrf_token%}
+            {{form.as_p}}
+            {% if edit %}
+            <!-- editing url -->
+            <input style="width: 110px; margin-left: 15px;" type="submit" , value="Edit">
+            {% else %}
+            <!-- creating url -->
+            <input style="width: 110px; margin-left: 15px;" type="submit" , value="Start">
+            {% endif %}
+        </form>
+    </div>
+    {% endblock %}
+
+    {% block list %}
+    <div>
+        <table>
+            {% for url in object_list %}
+            <tr>
+                <td>
+                    <!-- copy icon -->
+                    <a href="{% url 'scissors:copy-url' url.pk %}"><img src="../static/icons/copy.png"
+                            style="margin-right:5px; cursor: pointer; width: 40px;" title="copy path"></a>
+                    <!-- edit icon -->
+                    <a href="{% url 'scissors:edit-url' url.pk %}"><img src="../static/icons/edit.png"
+                            style="cursor:pointer; width: 40px;" title="edit"></a>
+                </td>
+                <td>/s/{{url.path}}</td>
+                <td>{{url.original}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+    {% endblock %}
+
+    <!-- next & previous button -->
+    {% block pagination %}
+    {% if not edit %}
+    <div class="button">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="previous">&laquo; Previous</a>
+        {% endif %}
+
+        <span>
+            page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="next">Next &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% endblock %}
+
+</body>
+
+</html>

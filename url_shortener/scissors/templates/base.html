@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Url Shortener</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+    <div id='menu'>
+        <ul>
+            <li><a href="{% url 'scissors:list-url' %}">Home</a></li>
+            <li><a href="{% url 'scissors:redirect-page' %}">about us</a></li>
+        </ul>
+    </div>
+
+    <div id='url-creation'>
+        <div>
+            {% block url %}
+            {% endblock %}
+        </div>
+
+        <div>
+            {% block list %}
+            {% endblock %}
+        </div>
+        <div>
+            {% block edit %}
+            {% endblock %}
+        </div>
+        <div>
+            {% block about %}
+            {% endblock %}
+        </div>
+    </div>
+    {% block pagination %}
+    {% endblock %}
+</body>
+
+</html>
